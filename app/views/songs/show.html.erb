@@ -1,0 +1,21 @@
+<h1>Others who added <%= @song.artist %> - <%= @song.title %></h1>
+<table>
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>No. of Times Song Has Been Added</td>
+        </tr>
+    </thead>
+    <tbody class="zebra">
+
+    <% @playlists.group(:user_id).each do |p| %>
+        <tr>
+            <% if p.user_id != session[:user_id] %>
+
+                <td><a href="/users/<%= p.user.id%>"><%= p.user.first_name %></a></td>
+                <td><%= @playlists.where(user_id:p.user_id).count %></td>
+            <% end %>
+        </tr>
+        <% end %>
+    </tbody>  
+</table>

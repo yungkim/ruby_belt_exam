@@ -1,0 +1,56 @@
+<h1>Hello, <%=@user.first_name%> <%=@user.last_name%>!</h1>
+
+<p>All the songs in our hub:</p>
+<table>
+    <thead>
+        <tr>
+            <td>Artist</td>
+            <td>Title</td>
+            <td>No. of Times Song Has Been Added</td>
+            <td>Add to Playlist</td>
+        </tr>
+    </thead>
+    <tbody class="zebra">
+    <% @songs.each do |s| %>
+        <tr>
+            
+            <td><%= s.artist %></td>
+            <td><a href="/songs/<%= s.id %>"><%= s.title %></a></td>
+            <td><%= s.playlists.count %></td>
+            <td>
+            <!-- If we want to limit user to add particular song just one time  -->
+
+            <!-- <  if s.playlists.find_by_user_id(session[:user_id]) == nil > -->
+
+                <form action="/playlists/" method="POST">
+                  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                  <input type="hidden" name="song_id" value="<%= s.id %>">
+                  <input type="submit" value="Add">
+                </form>
+            
+            </td>
+        </tr>
+        <% end %>
+    </tbody>  
+</table>
+
+<fieldset>
+        <legend>Add a song:</legend>
+            <%= form_for @new_song, :url => url_for(:controller => 'songs', :action => "create") do |s| %>
+            <table>
+
+                <tr>
+                    <td>Title<%= s.text_field :title, :placeholder => "Title" %></td>
+                    
+                </tr>
+                <tr>
+
+                    <td>Artist<%= s.text_field :artist, :placeholder => "Artist" %></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><%= submit_tag 'Add Song' %></td>
+                </tr>
+            </table>
+            <% end %>
+    </fieldset>

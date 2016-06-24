@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ruby Belt Exam</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag 'favicon.ico' %>
+</head>
+<body>
+<ul>
+<% if session[:user_id].present? %>
+  <li><a href="/songs/index">Dashboard</a></li>
+    
+    <li><%= link_to 'Logout', '/sessions', method: :delete, data: { confirm: 'Are you sure you want to logout?' }  %></li>
+  <% end %>
+</ul>
+
+
+<%= yield %>
+
+  <% if flash[:errors].present? %>
+    <% flash[:errors].each do |e| %>
+    <p><%= e %></p>
+    <% end %>
+  <% end %>
+  <% if flash[:alert].present? %>
+    <%= flash[:alert] %>
+  <% end %>
+  <% if flash[:notice].present? %>
+    <%= flash[:notice] %>
+  <% end %>
+
+
+</body>
+</html>

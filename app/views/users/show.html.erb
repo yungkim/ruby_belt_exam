@@ -1,0 +1,22 @@
+<h1><%= @user.first_name %> <%= @user.last_name %>'s Playlist</h1>
+<table>
+    <thead>
+        <tr>
+            <td>Artist</td>
+            <td>Title</td>
+            <td>Times Added</td>
+        </tr>
+    </thead>
+    <tbody class="zebra">
+
+     
+        <% Playlist.all.where(user_id:@user.id).group(:song_id).each do |p| %>
+        <tr>
+            <td><%= p.song.artist%></td>
+            <td><%= p.song.title%></td>
+            <td><%= Playlist.all.where(song_id:p.song_id, user_id:p.user_id).count %></td>
+        </tr>
+        <% end %>
+
+    </tbody>  
+</table>
